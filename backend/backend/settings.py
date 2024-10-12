@@ -33,18 +33,28 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
-    "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
-    ],
-}
+#REST_FRAMEWORK = {
+    #"DEFAULT_AUTHENTICATION_CLASSES": (
+        #"rest_framework_simplejwt.authentication.JWTAuthentication",
+    #),
+    #"DEFAULT_PERMISSION_CLASSES": [
+        #"rest_framework.permissions.IsAuthenticated",
+    #],
+#}
 
-SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+#SIMPLE_JWT = {
+    #"ACCESS_TOKEN_LIFETIME": timedelta(minutes=30),
+    #"REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+#}
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication', 
+        'rest_framework.authentication.BasicAuthentication', # Use session authentication
+    ),
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',  # Requires authentication for API views
+    ),
 }
 
 # Application definition
@@ -73,7 +83,7 @@ MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",
 ]
 
-ROOT_URLCONF = "backend.urls"
+ROOT_URLCONF = "api.urls"
 
 TEMPLATES = [
     {
@@ -159,3 +169,22 @@ AUTHENTICATION_BACKENDS = [
     'api.backends.GuestListBackend',  # Path to your custom backend
     'django.contrib.auth.backends.ModelBackend',  # Default backend (for admin login etc.)
 ]
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": "debug.log",
+        },
+    },
+    "loggers": {
+        "django": {
+            "handlers": ["file"],
+            "level": "DEBUG",
+            "propagate": True,
+        },
+    },
+}

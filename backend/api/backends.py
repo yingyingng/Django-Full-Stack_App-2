@@ -8,6 +8,7 @@ class GuestListBackend(BaseBackend):
         try:
             # Attempt to find a matching record in the GuestList table
             guest = GuestList.objects.get(last_name=username, hp_num=password)
+        
             return guest  # Return the guest object if authenticated
         except GuestList.DoesNotExist:
             return None  # Return None if authentication fails
