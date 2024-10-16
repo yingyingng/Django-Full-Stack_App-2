@@ -80,7 +80,6 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "api.urls"
@@ -166,8 +165,8 @@ CORS_ALLOWS_CREDENTIALS = True
 
 
 AUTHENTICATION_BACKENDS = [
-    'api.backends.GuestListBackend',  # Path to your custom backend
     'django.contrib.auth.backends.ModelBackend',  # Default backend (for admin login etc.)
+    'api.backends.GuestListBackend',  # Path to your custom backend
 ]
 
 LOGGING = {
@@ -175,7 +174,7 @@ LOGGING = {
     "disable_existing_loggers": False,
     "handlers": {
         "file": {
-            "level": "DEBUG",
+            "level": "INFO",
             "class": "logging.FileHandler",
             "filename": "debug.log",
         },
@@ -183,8 +182,12 @@ LOGGING = {
     "loggers": {
         "django": {
             "handlers": ["file"],
-            "level": "DEBUG",
+            "level": "INFO",
             "propagate": True,
         },
     },
 }
+
+AUTH_USER_MODEL = 'api.GuestList'
+
+LOGIN_URL = 'login'

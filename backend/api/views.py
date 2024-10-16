@@ -1,4 +1,5 @@
 
+
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from rest_framework import generics
@@ -15,7 +16,6 @@ from django.http import JsonResponse
 from django.contrib.auth.backends import BaseBackend
 from django.contrib.auth.hashers import make_password
 from .serializers import GuestLoginSerializer
-
 
 
 #class NoteListCreate(generics.ListCreateAPIView):
@@ -49,15 +49,18 @@ from .serializers import GuestLoginSerializer
     #permission_classes = [AllowAny]
 
 class GuestLoginView(APIView):
+    #permission_classes = [IsAuthenticated]
+    
     def post(self, request):
+        print("Request data:", request.data)  # This will print in the terminal
         serializer = GuestLoginSerializer(data=request.data)
         if serializer.is_valid():
             guest = serializer.validated_data
-            return Response({
-                "message": "Login successful",
-                "guest_name": guest.last_name
-            }, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            print("Validated data:", guest)  # This will also print in the terminal
+            return Response({"message": "Login successful"}, status=status.HTTP_200_OK)
+        else:
+            print("Serializer errors:", serializer.errors)  # This will print errors in the terminal
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 

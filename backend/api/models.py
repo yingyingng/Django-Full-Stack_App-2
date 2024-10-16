@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 from import_export import resources
 
 
@@ -13,9 +13,9 @@ from import_export import resources
         #return self.title
 
 
-class GuestList(models.Model):
-    last_name = models.CharField(max_length=200)
-    hp_num = models.IntegerField()
+class GuestList(AbstractUser) :
+    username = models.CharField(max_length=200)
+    password = models.CharField(max_length=200)
     table_num = models.IntegerField()
     order = models.CharField(max_length=200)
 
